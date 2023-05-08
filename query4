@@ -1,0 +1,52 @@
+package query;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+public class query4 {
+
+	public static void main(String args[]) throws SQLException, IOException, 
+	ClassNotFoundException {
+
+		// Load the PostgreSQL driver 
+		Class.forName("org.postgresql.Driver");
+
+		// Connect to the default database with credentials
+		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "1419");
+
+		// For atomicity
+		conn.setAutoCommit(false);
+
+		// For isolation
+		conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+		Statement stmt1 = null;
+		try {
+			// Create statement object
+			stmt1 = conn.createStatement();
+			//check the pg4admin
+			//Three tables already exists
+			//Product with attributes prod,pname and price where prod is primary key
+			//Depot with attributes dep,addr and volume where dep is primary key
+			//Stock with attributes prod,dep and quantity where prod and dep are foreign keys referencing prod and dep in tables Product and Depot respectively
+			//Query4 is to update d1 to dd1 in tables Depot and Stock
+			//Executing the statement
+			stmt1.executeUpdate("update Depot set dep='dd1' where dep='d1'");
+		} catch (SQLException e) {
+			System.out.println("An exception was thrown");
+			// For atomicity
+			conn.rollback();
+			stmt1.close();
+			conn.close();
+			return;
+		}
+		conn.commit();
+		stmt1.close();
+		conn.close();
+	}
+}
