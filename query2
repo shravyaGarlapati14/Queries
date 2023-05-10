@@ -35,7 +35,7 @@ public class query2 {
 			//Stock with attributes prod,dep and quantity where prod and dep are foreign keys referencing prod and dep in tables Product and Depot respectively
 			//Query2 is to delete d1 from tables Depot and Stock
 			//Executing the statement
-			stmt1.executeUpdate("delete from Depot where dep='d1'");
+			stmt1.executeUpdate("delete from Depot where dep='dd1'");
 		} catch (SQLException e) {
 			System.out.println("An exception was thrown");
 			// For atomicity
